@@ -5,6 +5,17 @@ export default function SsrPage({ time }: any) {
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       <div className="max-w-3xl mx-auto space-y-8">
+        <div className="flex justify-center">
+          <Link
+            href="/"
+            className="flex items-center gap-2 border border-gray-300 dark:border-gray-700 rounded-full px-4 py-2 text-sm font-medium hover:bg-white/10 transition"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8v8m5-4h-4a1 1 0 01-1-1v-4a1 1 0 011-1h4m0 0l2 2m-2-2l-2-2" />
+            </svg>
+            İçindekiler
+          </Link>
+        </div>
         <h1 className="text-4xl font-extrabold text-center text-white drop-shadow-md">
           🕒 SSR Sayfa
         </h1>
