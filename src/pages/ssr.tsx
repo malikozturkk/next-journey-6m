@@ -10,8 +10,19 @@ export default function SsrPage({ time }: any) {
             href="/"
             className="flex items-center gap-2 border border-gray-300 dark:border-gray-700 rounded-full px-4 py-2 text-sm font-medium hover:bg-white/10 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8v8m5-4h-4a1 1 0 01-1-1v-4a1 1 0 011-1h4m0 0l2 2m-2-2l-2-2" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 12l2-2m0 0l7-7 7 7m-9 2v8m4-8v8m5-4h-4a1 1 0 01-1-1v-4a1 1 0 011-1h4m0 0l2 2m-2-2l-2-2"
+              />
             </svg>
             İçindekiler
           </Link>
@@ -22,9 +33,27 @@ export default function SsrPage({ time }: any) {
 
         <div className="space-y-6 text-gray-300 leading-relaxed text-[15px]">
           <p className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-yellow-500">
-              <b className="text-xl">Bu sayfamda SSR seçme sebebim;</b> <br />
-              1. Saat bilgisinin sürekli güncellenmesi gerektiği için <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">SSG veya ISR</code> yerine <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">SSR</code> seçtim. <br />
-              2. Ön yüzde kullanıcıya özel bir içerik olmayacağı veya herhangi bir client hook'u kullanmayacağım için <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">CSR</code> yerine <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">SSR</code> seçtim. <br />
+            <b className="text-xl">Bu sayfamda SSR seçme sebebim;</b> <br />
+            1. Saat bilgisinin sürekli güncellenmesi gerektiği için{" "}
+            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
+              SSG veya ISR
+            </code>{" "}
+            yerine{" "}
+            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
+              SSR
+            </code>{" "}
+            seçtim. <br />
+            2. Ön yüzde kullanıcıya özel / kullanıcıyla etkileşim gerektiren bir
+            içerik olmayacağı veya herhangi bir client hook'u kullanmayacağım
+            için{" "}
+            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
+              CSR
+            </code>{" "}
+            yerine{" "}
+            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
+              SSR
+            </code>{" "}
+            seçtim. <br />
           </p>
           <p className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-teal-500">
             Sunucuya bu sayfa için istek geldiği an, öncelikle{" "}
@@ -78,30 +107,10 @@ export default function SsrPage({ time }: any) {
             .
             <br />
             <span className="text-orange-300">
-              Build sırasında herhangi bir HTML oluşturulmaz yalnızca sayfanın ssr yükleneceği bilgisi .next altında tutulur
+              Build sırasında herhangi bir HTML oluşturulmaz yalnızca sayfanın
+              ssr yükleneceği bilgisi .next altında tutulur
             </span>
             ; her şey isteğin geldiği anda oluşturulur.
-          </p>
-
-          <p className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-pink-500">
-            Projeyi{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              yarn dev
-            </code>{" "}
-            ile çalıştırınca development modda çalışır.
-            <br />
-            Bu durumda yine her istek geldiğinde sunucu tarafında{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              getServerSideProps
-            </code>{" "}
-            çalışır ve API çağrısı yapılır.
-            <br />
-            <span className="text-lime-300">
-              Development ve Production arasında SSR davranışı açısından fark
-              yoktur
-            </span>
-            : Her zaman istek anında çalışır ve her defasında güncel verilerle
-            render edilir.
           </p>
         </div>
 
@@ -183,19 +192,27 @@ export default function SsrPage({ time }: any) {
             className="group flex items-center justify-end gap-4 border border-gray-300 dark:border-gray-700 rounded-2xl p-5 hover:shadow-xl transition duration-300 hover:bg-gradient-to-l from-blue-100/40 to-white dark:from-blue-900/20 dark:to-black"
           >
             <div className="flex flex-col text-right">
-              <span className="text-xs text-gray-500 dark:text-gray-400">Sonraki Konu</span>
-              <span className="font-semibold text-gray-800 dark:text-white text-base">CSR (Client-Side Rendering)</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                Sonraki Konu
+              </span>
+              <span className="font-semibold text-gray-800 dark:text-white text-base">
+                CSR (Client-Side Rendering)
+              </span>
             </div>
             <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-full p-3 group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 stroke-blue-700 dark:stroke-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 stroke-blue-700 dark:stroke-blue-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
             </div>
           </Link>
         </div>
-
-
       </div>
     </div>
   );
