@@ -16,7 +16,7 @@ export async function connectProducer(): Promise<void> {
 
 export async function sendRideRequest(rideRequest: RideRequest): Promise<void> {
   await connectProducer();
-  
+
   await producer.send({
     topic: "ride-requested",
     messages: [{ value: JSON.stringify(rideRequest) }],
@@ -25,8 +25,6 @@ export async function sendRideRequest(rideRequest: RideRequest): Promise<void> {
   console.log("🚖 Yeni sürüş isteği gönderildi:", rideRequest);
 }
 
-// Artık sadece bağlantı kurmak için kullanılıyor, otomatik gönderim yok
 export async function startProducer(): Promise<void> {
   await connectProducer();
-  console.log("✅ Kafka Producer hazır - Manuel gönderim için bekliyor");
 }

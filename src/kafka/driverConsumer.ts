@@ -14,9 +14,7 @@ export async function startDriverConsumer(): Promise<void> {
       const ride: RideRequest = JSON.parse(message.value.toString());
       console.log(`🧍‍♂️ Sürücü bulundu: ${ride.id} kullanıcı: ${ride.user}`);
       console.log(`📍 Rota: ${ride.pickup} → ${ride.drop}`);
-      console.log(`⏱️ Tahmini süre: ${Math.floor(Math.random() * 20) + 10} dakika`);
-      console.log(`💰 Tahmini ücret: ${Math.floor(Math.random() * 50) + 20} TL`);
-      console.log("---");
+      console.log("------");
     },
   });
 }
