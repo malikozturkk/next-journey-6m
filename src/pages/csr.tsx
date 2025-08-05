@@ -102,41 +102,143 @@ const Csr = () => {
             </code>{" "}
             daha mantıklı.
           </p>
-          <p className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-teal-500">
-            Sunucuya bu sayfa için istek geldiği an, öncelikle NextJs{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              {'<div id="__next"></div>'}
-            </code>{" "}
-            bu div'in olduğu HTML'i tarayıcıya gönderir. Ardından tarayıcı
-            Javascript'i indirmeye başlar, bu süreçte sayfa beyaz ekran kalır.
-            Sayfanın Javascript dosyasını indirmek için, NextJs'in gönderdiği
-            HTML dosyasındaki{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              {'<script src="...">'}
-            </code>{" "}
-            satırlarını takip eder ve Javascript'leri indirir. Ardından React{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              {"<App />"}
-            </code>{" "}
-            componentini{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              {'<div id="__next"></div>'}
-            </code>{" "}
-            in içine render eder. <br />
-          </p>
 
-          <p className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-pink-500">
-            Kodsal olarak baktığımızda ise Javascript yüklendikten sonra{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              useEffect
-            </code>{" "}
-            çalışır ve data fetching yaparak sayfayı render eder. Data fetching
-            yaptığı ana kadar{" "}
-            <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
-              Loading
-            </code>{" "}
-            görülür.
-          </p>
+
+
+
+          <div className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-blue-500">
+            <b className="text-xl">🔍 Javascript Yüklendikten Sonra DOM Nasıl Oluşur?</b>
+            <br /><br />
+            
+            <b className="text-lg">✅ 1. Tarayıcı ilk HTML dosyasını alır</b> <br />
+            Next.js sunucusu tarafından gelen <b>statik HTML</b> içinde sadece şu vardır:
+            <br /><br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+{`<body>
+  <div id="__next"></div>
+  <script src="/_next/static/.../main.js"></script>
+</body>`}
+            </pre>
+            <br />
+            • <code className="bg-gray-700 px-1 rounded text-sm">{'<div id="__next"></div>'}</code> → <b>Next.js server</b> tarafından HTML'ye yerleştirilir.
+            <br />
+            • Henüz DOM oluşmamıştır, sadece bu boş <code className="bg-gray-700 px-1 rounded text-sm">{'<div>'}</code> kullanıcıya gösterilir.
+            <br /><br />
+            
+            <b className="text-lg">⚙️ 2. Tarayıcı JavaScript'i indirir</b> <br />
+            Tarayıcı, HTML'deki <code className="bg-gray-700 px-1 rounded text-sm">{'<script src="...">'}</code> satırlarını takip eder ve:
+            <br />
+            • <code className="bg-gray-700 px-1 rounded text-sm">/_next/static/.../main.js</code>,
+            <br />
+            • <code className="bg-gray-700 px-1 rounded text-sm">/_next/static/chunks/pages/index.js</code> (veya başka sayfa dosyaları) gibi JS dosyalarını indirir.
+            <br /><br />
+            Bu dosyalar:
+            <br />
+            • React kütüphanesini,
+            <br />
+            • Component kodlarını,
+            <br />
+            • Sayfa içeriğini üretmek için gerekli fonksiyonları içerir.
+            <br /><br />
+            
+            <b className="text-lg">⚛️ 3. React başlatılır (hydrate/render)</b> <br />
+            İndirilen JS içinde şu kod otomatik olarak çalışır:
+            <br /><br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+{`ReactDOM.render(<App />, document.getElementById("__next"));`}
+            </pre>
+            <br />
+            Ya da SSR varsa:
+            <br /><br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+{`ReactDOM.hydrate(<App />, document.getElementById("__next"));`}
+            </pre>
+            <br />
+            Yani:
+            <br />
+            • React, <code className="bg-gray-700 px-1 rounded text-sm">pages/index.js</code> içindeki bileşeni alır,
+            <br />
+            • <code className="bg-gray-700 px-1 rounded text-sm">{'<App />'}</code> gibi root bileşenleri oluşturur,
+            <br />
+            • Tüm bu sanal ağacı <code className="bg-gray-700 px-1 rounded text-sm">{'<div id="__next">'}</code> içine yerleştirir.
+            <br /><br />
+            
+            Sayfa ilk yüklenirken kullanıcı tarafından fark edilecek bir gecikme olabilir. Bu gecikme ekranın kısa bir süre beyaz kalmasına sebep olabilir. Javascript, indirilene ve çalıştırılana kadar, biraz zamana ihtiyaç duyar.
+          </div>
+
+          <div className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-green-500">
+            <b className="text-xl">📊 CSR vs Diğer Render Yöntemleri Karşılaştırması</b>
+            <br /><br />
+            <div className="overflow-x-auto">
+              <table className="min-w-full border border-gray-600">
+                <thead>
+                  <tr className="bg-gray-700">
+                    <th className="border border-gray-600 px-4 py-2 text-left">Kriter</th>
+                    <th className="border border-gray-600 px-4 py-2 text-center">✅</th>
+                    <th className="border border-gray-600 px-4 py-2 text-center">❌</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">İlk Yüklenme Hızı</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Single Page Application ile tek sayfa indirildiği için sonraki sayfalar hızlı açılır</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">İlk açılışta sadece boş HTML ve JS geldiği için <b>ilk yüklenme süresi uzundur</b></td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">Kullanıcı Deneyimi</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Sayfalar arası geçişler çok hızlıdır, pürüzsüz deneyim sunar</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">İlk içerik geç gelir, <b>"beyaz ekran"</b> yaşanabilir</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">SEO</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">-</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">JavaScript çalışmadan içerik görünmez, <b>SEO için uygun değildir</b></td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">Sunucu Yükü</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Sunucuya az yük biner, çünkü render işlemi istemciye bırakılır</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">-</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">Dinamik Veri Kullanımı</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">İstemci tarafında API'den veri çekmek kolaydır</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Veri çekerken kullanıcıya boş ekran gösterilebilir</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">CDN Kullanımı</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Tamamen statik HTML sunulduğundan <b>CDN ile kolay cache yapılabilir</b></td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">İlk yüklenmede büyük JS dosyaları cachelenene kadar performans düşebilir</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-600 px-4 py-2">Render Zamanı</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Render işlemi istemcide çalıştığı için sunucuya bağımlı değildir</td>
+                    <td className="border border-gray-600 px-4 py-2 text-center">Düşük cihazlarda render süresi uzun olabilir</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-purple-500">
+            <b className="text-xl">💡 CSR Kullanım Senaryoları</b>
+            <br /><br />
+            Diğer render methodlarından farklı olarak, CSR iki şekilde kullanılabilir:
+            <br /><br />
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-blue-400 text-lg">1.</span>
+                <div>
+                  <b>useEffect kullanımında çalışır.</b> Sebebi ise useEffect bir react hook'u olduğu için React hookları Javascript'e ihtiyaç duyar. Bu yüzden de Javascript yüklendikten sonra çalışır ve CSR olur.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-blue-400 text-lg">2.</span>
+                <div>
+                  <b>SWR veya TanStack Query</b> gibi bir data-fetching kütüphanesi ile api call yapıldığında otomatik olarak CSR olarak yüklenir.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="min-h-screen bg-zinc-950 px-4 py-8 text-zinc-200">

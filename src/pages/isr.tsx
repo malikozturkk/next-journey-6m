@@ -60,13 +60,132 @@ export default function Isr({ product }: any) {
             <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
               revalidate
             </code>{" "}
-            sayesinde belirli aralıklarla yenilensin. <br />
+            sayesinde belirli aralıklarla yenilensin. (değer saniye cinsinden
+            verilir) <br />
             3. Ürün sayfaları SEO için önemli olduğu için{" "}
             <code className="bg-gray-700 text-white px-1 py-0.5 rounded text-sm">
               CSR
             </code>{" "}
             yerine önceden render edilmiş HTML gerekiyor.
           </p>
+
+          <div className="bg-gray-800/50 p-4 rounded-lg border-l-4 border-pink-500">
+            <b className="text-xl">❓ Soru:</b> <br />
+            ISR sayfamdaki kullandığım API çok önemli bir veriyi değiştirdi
+            ancak benim revalidate süreme daha 2-3 gün var ne yapıcam?
+            <br />
+            <br />
+            <b className="text-xl">
+              ✅ Cevap: Bu sorunu çözmek için birkaç yöntem var;
+            </b>{" "}
+            <br />
+            Öncelikle kısaca bahsedip ardından nasıl yapabileceğimizi
+            göstereceğim:
+            <br />
+            <br />
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✅</span>
+                <span>1. On-Demand Revalidation (İsteğe Bağlı Yenileme)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✅</span>
+                <span>
+                  2. App Router (Next.js 13+) için: revalidatePath kullanımı
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✅</span>
+                <span>3. Sayfayı manuel olarak yeniden deploy etmek</span>
+              </div>
+            </div>
+            <br />
+            <b className="text-lg">1. On-Demand Revalidation:</b> <br />
+            Next.js'in{" "}
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              res.revalidate
+            </code>{" "}
+            veya{" "}
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              revalidatePath()
+            </code>{" "}
+            API'sini kullanarak, belirli bir route'u programatik olarak yeniden
+            oluşturabilirsin.
+            <br />
+            <br />
+            <b>Adımlar:</b> <br />
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              /api/revalidate.ts
+            </code>{" "}
+            adında bir dosya oluştur:
+            <br />
+            <br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+              {`import type { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.query.secret !== process.env.REVALIDATE_SECRET) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+
+  try {
+    // Örnek: /product/bag route'unu yeniden oluştur
+    await res.revalidate('/product/bag');
+    return res.json({ revalidated: true });
+  } catch (err) {
+    return res.status(500).send('Error revalidating');
+  }
+}`}
+            </pre>
+            <br />
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              .env.local
+            </code>{" "}
+            dosyana bir secret ekle:
+            <br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+              {`REVALIDATE_SECRET=mySuperSecretToken`}
+            </pre>
+            <br />
+            Bu endpoint'e GET isteği gönder:
+            <br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+              {`curl "https://yourdomain.com/api/revalidate?secret=mySuperSecretToken"`}
+            </pre>
+            <br />
+            <span className="text-green-400">✅</span> Bu şekilde anında{" "}
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              /product/bag
+            </code>{" "}
+            yeniden oluşturulur ve yeni veriyle sunulur.
+            <br />
+            <br />
+            <b className="text-lg">2. App Router için revalidatePath:</b> <br />
+            Eğer App Router kullanıyorsak, aşağıdaki gibi server action içinde{" "}
+            <code className="bg-gray-700 px-1 rounded text-sm">
+              revalidatePath()
+            </code>{" "}
+            çağırabiliriz:
+            <br />
+            <br />
+            <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
+              {`'use server'
+import { revalidatePath } from 'next/cache'
+
+export async function forceRevalidate() {
+  revalidatePath('/product/bag') // ya da dinamik route: /product/${"{id}"}
+}`}
+            </pre>
+            <br />
+            Bunu bir butonun action'ına bağlayabilir ya da API route üzerinden
+            tetikleyebilirsin.
+            <br />
+            <br />
+            <b className="text-lg">3. Manuel Deploy:</b> <br />
+            Eğer yukarıdaki yöntemleri kullanmak istemiyorsak, Next.js projesini
+            yeniden build etmek de cache'i sıfırlar. Ancak bu tüm ISR
+            sayfalarını etkiler ve önerilmez.
+          </div>
         </div>
 
         <div className="bg-gray-900 p-6 rounded-xl shadow-lg space-y-4">
