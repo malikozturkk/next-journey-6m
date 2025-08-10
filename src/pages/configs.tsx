@@ -1,7 +1,31 @@
 import Link from "next/link";
 import Logo from "../assets/logo.svg";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default function Webpack() {
+export default function Configs() {
+  const [headerValue, setHeaderValue] = useState<string | null>(null);
+  const [robotsValue, setRobotsValue] = useState<string | null>(null);
+  const [poweredValue, setPoweredValue] = useState<string | null>(null);
+  const [rewriteData, setRewriteData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/about")
+      .then((res) => {
+        setHeaderValue(res.headers.get("X-Custom-Header"));
+        setRobotsValue(res.headers.get("X-Robots-Tag"));
+        setPoweredValue(res.headers.get("X-Powered-By-Custom"));
+      })
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/user/1")
+      .then((res) => res.json())
+      .then((data) => setRewriteData(data))
+      .catch(console.error);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       <div className="max-w-3xl mx-auto space-y-10">
@@ -29,36 +53,73 @@ export default function Webpack() {
         </div>
 
         <h1 className="text-4xl font-extrabold text-center text-white drop-shadow-md">
-          🛠 Webpack ayarı ile örnekler
+          🛠 Config ayarları ile örnekler
         </h1>
 
-        <div className="space-y-6 text-gray-300 leading-relaxed text-[15px]">
-          <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-teal-500 text-center">
-            <h2 className="text-2xl font-semibold mb-4 text-teal-300">
-              Örnek 1 – SVG'yi React Bileşenine Dönüştürme
-            </h2>
-            <div className="flex flex-col items-center gap-4">
-              <Logo width={100} height={100} />
-              <p>Bu SVG React bileşeni olarak render edildi ✅</p>
-            </div>
-          </div>
+        <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-blue-500 text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-blue-300">
+            Örnek 1 – Image Optimization
+          </h2>
+          <Image
+            src="https://placecats.com/neo_2/300/200"
+            alt="Kedi"
+            width={800}
+            height={500}
+            className="rounded-lg"
+          />
+          <p className="mt-2 text-sm text-gray-400">
+            Bu görsel izin verilen domain’den geldi ve optimize edildi.
+          </p>
+        </div>
 
-          <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-yellow-500 text-center">
-            <h2 className="text-2xl font-semibold mb-4 text-yellow-300">
-              Örnek 2 – Config dosyasından env değeri gönderme
-            </h2>
-            <p>
-              Webpack'den gelen değişken:{" "}
-              <b className="bg-gray-700 px-1 rounded text-sm">
-                {process.env.MY_CUSTOM_VARIABLE}
-              </b>
-            </p>
-          </div>
+        <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-purple-500 text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-purple-300">
+            Örnek 2 – HTTP Header
+          </h2>
+          <p>
+            <b>X-Custom-Header:</b> {headerValue || "Yükleniyor..."}
+          </p>
+          <p>
+            <b>X-Robots-Tag:</b> {robotsValue || "Yükleniyor..."}
+          </p>
+          <p>
+            <b>X-Powered-By-Custom:</b> {poweredValue || "Yükleniyor..."}
+          </p>
+          <p className="mt-2 text-sm text-gray-400">
+            Bu değerler Next.js <code>headers()</code> ile eklendi.
+          </p>
+        </div>
+
+        <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-pink-500 text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-pink-300">
+            Örnek 3 – Rewrites ile API Proxy
+          </h2>
+          <pre className="bg-gray-900 p-4 rounded-lg text-xs text-left overflow-x-auto">
+            {rewriteData
+              ? JSON.stringify(rewriteData, null, 2)
+              : "API'den veri yükleniyor..."}
+          </pre>
+          <p className="mt-2 text-sm text-gray-400">
+            /api/user/1 isteği <code>jsonplaceholder.typicode.com</code>{" "}
+            API’sine yönlendirildi.
+          </p>
+        </div>
+
+        <div className="bg-gray-800/50 p-6 rounded-lg border-l-4 border-red-500 text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-red-300">
+            Örnek 4 – Redirect testi
+          </h2>
+          <Link href="/old-blog/test-yazi" className="text-blue-400 underline">
+            Eski blog linkine git
+          </Link>
+          <p className="mt-2 text-sm text-gray-400">
+            Tıkladığında tarayıcı otomatik /new-blog/test-yazi adresine gider.
+          </p>
         </div>
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
-            href="/isr"
+            href="/webpack"
             className="group flex items-center justify-start gap-4 border border-gray-300 dark:border-gray-700 rounded-2xl p-5 hover:shadow-xl transition duration-300 hover:bg-gradient-to-r from-teal-100/40 to-white dark:from-teal-900/20 dark:to-black"
           >
             <div className="flex items-center justify-center bg-teal-100 dark:bg-teal-900 rounded-full p-3 group-hover:bg-teal-200 dark:group-hover:bg-teal-800 transition">
@@ -78,7 +139,7 @@ export default function Webpack() {
                 Önceki Konu
               </span>
               <span className="font-semibold text-gray-800 dark:text-white text-base">
-                ISR (Incremental Static Regeneration)
+                Webpack Ayarı
               </span>
             </div>
           </Link>

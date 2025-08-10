@@ -165,6 +165,11 @@ export default function Home() {
                 label:
                   "Webpack ayarı nedir? next.config dosyasında nasıl yapılır ve neler yapılabilir?",
               },
+              {
+                href: "/configs",
+                label:
+                  "Next.config.ts içerisindeki eklenebilecek bazı config ayarları",
+              },
             ].map((item, index) => (
               <li key={index}>
                 <Link

@@ -4,6 +4,45 @@ import webpack from "webpack";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
+  images: {
+    domains: ["placecats.com", "cdn.example2.com"],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 768, 1024, 1280, 1600],
+  },
+
+  async headers() {
+    return [
+      {
+        source: "/about",
+        headers: [
+          { key: "X-Custom-Header", value: "Hello World" },
+          { key: "Cache-Control", value: "public, max-age=3600" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "X-Powered-By-Custom", value: "NextJS-Config-Demo" },
+        ],
+      },
+    ];
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/api/user/:id",
+        destination: "https://jsonplaceholder.typicode.com/users/:id",
+      },
+    ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: "/old-blog/:slug",
+        destination: "/new-blog/:slug",
+        permanent: true,
+      },
+    ];
+  },
+
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
