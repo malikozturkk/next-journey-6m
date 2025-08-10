@@ -344,7 +344,7 @@ export default function AboutPage({ messages }: Props) {
 
 export async function getStaticProps() {
   const res = await fetch(
-    "https://sorgulat.com/api/schools/universities?limit=14"
+    "https://sorgulat.com/api/schools/universities?limit=3"
   );
   const universities = await res.json();
 

@@ -58,8 +58,9 @@ export default function Home() {
             📌 1. Ay – Rendering & Cacheleme
           </h1>
           <p className="text-gray-400 text-md sm:text-lg">
-            Bu proje, 6 aylık hedef planımın ilk ayında ele aldığım konuları kapsıyor.
-            Aşağıdaki başlıklarda, her bir render yöntemini ve cachleme yapılarını ayrı ayrı inceledim ve örneklerle anlattım.
+            Bu proje, 6 aylık hedef planımın ilk ayında ele aldığım konuları
+            kapsıyor. Aşağıdaki başlıklarda, her bir render yöntemini ve
+            cachleme yapılarını ayrı ayrı inceledim ve örneklerle anlattım.
           </p>
         </div>
 
@@ -71,7 +72,10 @@ export default function Home() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="pickup" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="pickup"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Nereden
                 </label>
                 <input
@@ -85,7 +89,10 @@ export default function Home() {
                 />
               </div>
               <div>
-                <label htmlFor="drop" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="drop"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Nereye
                 </label>
                 <input
@@ -110,16 +117,18 @@ export default function Home() {
                   Gönderiliyor...
                 </>
               ) : (
-                <>
-                  🚀 Sürüş İsteği Gönder
-                </>
+                <>🚀 Sürüş İsteği Gönder</>
               )}
             </button>
           </form>
           {message && (
-            <div className={`mt-4 p-3 rounded-md text-sm ${
-              message.includes("✅") ? "bg-green-900 text-green-300" : "bg-red-900 text-red-300"
-            }`}>
+            <div
+              className={`mt-4 p-3 rounded-md text-sm ${
+                message.includes("✅")
+                  ? "bg-green-900 text-green-300"
+                  : "bg-red-900 text-red-300"
+              }`}
+            >
               {message}
             </div>
           )}
@@ -143,12 +152,18 @@ export default function Home() {
               },
               {
                 href: "/ssg",
-                label: "SSG (Static Site Generation) nedir ve kullanım senaryoları nelerdir?",
+                label:
+                  "SSG (Static Site Generation) nedir ve kullanım senaryoları nelerdir?",
               },
               {
                 href: "/isr",
                 label:
                   "ISR (Incremental Static Regeneration) nasıl çalışır? Revalidate süreci nasıl işler?",
+              },
+              {
+                href: "/webpack",
+                label:
+                  "Webpack ayarı nedir? next.config dosyasında nasıl yapılır ve neler yapılabilir?",
               },
             ].map((item, index) => (
               <li key={index}>
@@ -156,7 +171,21 @@ export default function Home() {
                   href={item.href}
                   className="group flex items-center gap-3 bg-gray-900 px-4 py-3 rounded-lg border border-gray-700 hover:border-teal-500 transition"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-teal-400 group-hover:translate-x-1 transition"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-4 h-4 text-teal-400 group-hover:translate-x-1 transition"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
                   <span className="text-white group-hover:text-teal-300 transition">
                     {item.label}
                   </span>
@@ -168,7 +197,8 @@ export default function Home() {
 
         <div className="text-center text-gray-500 text-sm pt-10">
           Her başlık, uygulamalı örneklerle desteklendi. <br />
-          Bu ayki hedefim, render yöntemlerini, cachelemeyi ve next.config dosyasını <br />
+          Bu ayki hedefim, render yöntemlerini, cachelemeyi ve next.config
+          dosyasını <br />
           hem teorik hem pratik olarak kavramaktı.
         </div>
       </div>
