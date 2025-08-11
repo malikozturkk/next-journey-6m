@@ -3,7 +3,10 @@ import webpack from "webpack";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  output: "standalone",
 
+  // Bu projede output:export yöntemi çalışmaz çünkü isr bir sayfa var ve next.config içerisinde rewrites, redirects, headers kullanımı var.
+  // output: "export",
   images: {
     domains: ["placecats.com", "cdn.example2.com"],
     formats: ["image/avif", "image/webp"],
