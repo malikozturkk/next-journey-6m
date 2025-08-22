@@ -145,7 +145,7 @@ export default function Configs() {
           </Link>
 
           <Link
-            href="/configs"
+            href="/cache-demo"
             className="group flex items-center justify-end gap-4 border border-gray-300 dark:border-gray-700 rounded-2xl p-5 hover:shadow-xl transition duration-300 hover:bg-gradient-to-l from-blue-100/40 to-white dark:from-blue-900/20 dark:to-black"
           >
             <div className="flex flex-col text-right">
@@ -153,7 +153,7 @@ export default function Configs() {
                 Sonraki Konu
               </span>
               <span className="font-semibold text-gray-800 dark:text-white text-base">
-                Configs (Next.config özellikleri)
+                Cache demo
               </span>
             </div>
             <div className="flex items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-full p-3 group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition">

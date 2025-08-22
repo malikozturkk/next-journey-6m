@@ -170,6 +170,10 @@ export default function Home() {
                 label:
                   "Next.config.ts içerisindeki eklenebilecek bazı config ayarları",
               },
+              {
+                href: "/cache-demo",
+                label: "Cache Demo",
+              },
             ].map((item, index) => (
               <li key={index}>
                 <Link

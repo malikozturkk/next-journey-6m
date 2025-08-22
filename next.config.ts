@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/about",
+        source: "/ssg",
         headers: [
           { key: "X-Custom-Header", value: "Hello World" },
           { key: "Cache-Control", value: "public, max-age=3600" },
